@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Access</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 min-h-screen p-6">
+    <div class="max-w-3xl mx-auto">
+        <div class="bg-white rounded-xl shadow-lg p-6">
+            <h1 class="text-2xl font-bold text-gray-800 mb-6">Manage Access for {{ document.title }}</h1>
+            
+            <ul class="space-y-4">
+                {% for permission in permissions %}
+                <li class="border rounded-lg p-4 hover:bg-gray-50 transition duration-150">
+                    <div class="flex items-center justify-between flex-wrap gap-4">
+                        <span class="font-medium text-gray-700">{{ permission.user.username }}</span>
+                        <form method="POST" class="flex items-center gap-3">
+                            {% csrf_token %}
+                            <select name="access_level" 
+                                    class="block w-36 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                <option value="read" {% if permission.access_level == "read" %}selected{% endif %}>Read</option>
+                                <option value="edit" {% if permission.access_level == "edit" %}selected{% endif %}>Edit</option>
+                                <option value="comment" {% if permission.access_level == "comment" %}selected{% endif %}>Comment</option>
+                            </select>
+                            <button type="submit" 
+                                    name="user_id" 
+                                    value="{{ permission.id }}"
+                                    class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                                Update
+                            </button>
+                        </form>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

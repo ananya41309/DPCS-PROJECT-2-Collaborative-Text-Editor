@@ -1,0 +1,48 @@
+{
+  "name": "a11y-status",
+  "version": "2.0.2",
+  "description": "Create a singleton live region for a11y status updates",
+  "homepage": "https://github.com/remirror/remirror/tree/HEAD/packages/a11y-status",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/remirror/remirror.git",
+    "directory": "packages/a11y-status"
+  },
+  "license": "MIT",
+  "contributors": [
+    "Ifiok Jr. <ifiokotung@gmail.com>"
+  ],
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/a11y-status.d.ts",
+      "import": "./dist/a11y-status.js",
+      "require": "./dist/a11y-status.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/a11y-status.cjs",
+  "module": "./dist/a11y-status.js",
+  "types": "./dist/a11y-status.d.ts",
+  "files": [
+    "dist",
+    "dist-types"
+  ],
+  "dependencies": {
+    "@babel/runtime": "^7.22.3",
+    "@types/throttle-debounce": "^2.1.0",
+    "throttle-debounce": "^3.0.1"
+  },
+  "devDependencies": {
+    "@remirror/cli": "1.1.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "@remirror": {
+    "sizeLimit": "1 KB"
+  },
+  "scripts": {
+    "build": "remirror-cli build"
+  }
+}

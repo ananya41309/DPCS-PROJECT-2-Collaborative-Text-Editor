@@ -1,0 +1,52 @@
+{
+  "name": "@svgmoji/openmoji",
+  "version": "3.2.0",
+  "description": "The svgmoji sprites for the [`openmoji`](https://github.com/hfg-gmuend/openmoji) library.",
+  "keywords": [
+    "emoji",
+    "svg",
+    "icons",
+    "openmoji"
+  ],
+  "homepage": "https://github.com/svgmoji/svgmoji/tree/HEAD/packages/@svgmoji/openmoji",
+  "repository": "https://github.com/svgmoji/svgmoji/tree/HEAD/packages/svgmoji__openmoji",
+  "license": "MIT",
+  "contributors": [],
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": "./dist/svgmoji-openmoji.esm.js",
+      "require": "./dist/svgmoji-openmoji.cjs.js",
+      "browser": "./dist/svgmoji-openmoji.browser.esm.js",
+      "types": "./dist/svgmoji-openmoji.cjs.d.ts",
+      "default": "./dist/svgmoji-openmoji.esm.js"
+    },
+    "./extra.json": "./extra.json",
+    "./missing.json": "./missing.json",
+    "./package.json": "./package.json",
+    "./types/*": "./dist/declarations/src/*.d.ts"
+  },
+  "main": "dist/svgmoji-openmoji.cjs.js",
+  "module": "dist/svgmoji-openmoji.esm.js",
+  "browser": {
+    "./dist/svgmoji-openmoji.cjs.js": "./dist/svgmoji-openmoji.browser.cjs.js",
+    "./dist/svgmoji-openmoji.esm.js": "./dist/svgmoji-openmoji.browser.esm.js"
+  },
+  "types": "dist/svgmoji-openmoji.cjs.d.ts",
+  "files": [
+    "dist",
+    "extra.json",
+    "extra.json.d.ts",
+    "missing.json"
+  ],
+  "dependencies": {
+    "@babel/runtime": "^7.12.5",
+    "@svgmoji/core": "^3.2.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "meta": {
+    "sizeLimit": "10 KB"
+  }
+}

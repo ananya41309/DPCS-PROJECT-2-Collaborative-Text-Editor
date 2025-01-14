@@ -1,0 +1,73 @@
+{
+  "name": "svgmoji",
+  "version": "3.2.0",
+  "description": "Consume svg sprites from popular open source emoji libraries.",
+  "keywords": [],
+  "homepage": "https://github.com/svgmoji/svgmoji/tree/HEAD/packages/svgmoji",
+  "repository": "https://github.com/svgmoji/svgmoji/tree/HEAD/packages/svgmoji",
+  "license": "MIT",
+  "contributors": [],
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": "./dist/svgmoji.esm.js",
+      "require": "./dist/svgmoji.cjs.js",
+      "browser": "./dist/svgmoji.browser.esm.js",
+      "types": "./dist/svgmoji.cjs.d.ts",
+      "default": "./dist/svgmoji.esm.js"
+    },
+    "./emoji-discord.json": "./emoji-discord.json",
+    "./emoji-discord.min.json": "./emoji-discord.min.json",
+    "./emoji-github.json": "./emoji-github.json",
+    "./emoji-github.min.json": "./emoji-github.min.json",
+    "./emoji-slack.json": "./emoji-slack.json",
+    "./emoji-slack.min.json": "./emoji-slack.min.json",
+    "./emoji.json": "./emoji.json",
+    "./emoji.min.json": "./emoji.min.json",
+    "./emoticons.json": "./emoticons.json",
+    "./package.json": "./package.json",
+    "./types/*": "./dist/declarations/src/*.d.ts"
+  },
+  "main": "dist/svgmoji.cjs.js",
+  "module": "dist/svgmoji.esm.js",
+  "browser": {
+    "./dist/svgmoji.cjs.js": "./dist/svgmoji.browser.cjs.js",
+    "./dist/svgmoji.esm.js": "./dist/svgmoji.browser.esm.js"
+  },
+  "types": "dist/svgmoji.cjs.d.ts",
+  "files": [
+    "emoji.json",
+    "emoji.min.json",
+    "emoji.json.d.ts",
+    "emoji.min.json.d.ts",
+    "emoji-discord.json",
+    "emoji-discord.min.json",
+    "emoji-discord.json.d.ts",
+    "emoji-discord.min.json.d.ts",
+    "emoji-github.json",
+    "emoji-github.min.json",
+    "emoji-github.json.d.ts",
+    "emoji-github.min.json.d.ts",
+    "emoji-slack.json",
+    "emoji-slack.min.json",
+    "emoji-slack.json.d.ts",
+    "emoji-slack.min.json.d.ts",
+    "emoticons.json",
+    "emoticons.json.d.ts",
+    "dist"
+  ],
+  "dependencies": {
+    "@babel/runtime": "^7.12.5",
+    "@svgmoji/blob": "^3.2.0",
+    "@svgmoji/core": "^3.2.0",
+    "@svgmoji/noto": "^3.2.0",
+    "@svgmoji/openmoji": "^3.2.0",
+    "@svgmoji/twemoji": "^3.2.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "meta": {
+    "sizeLimit": "10 KB"
+  }
+}

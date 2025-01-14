@@ -1,0 +1,115 @@
+import { ApplySchemaAttributes } from '@remirror/core';
+import { CommandFunction } from '@remirror/core';
+import { DefaultDocNodeOptions } from '@remirror/core';
+import { EditorStateProps } from '@remirror/core';
+import { Helper } from '@remirror/core';
+import { NodeExtension } from '@remirror/core';
+import { NodeExtensionSpec } from '@remirror/core';
+import { NodeSpecOverride } from '@remirror/core';
+import { ProsemirrorAttributes } from '@remirror/core';
+import { Static } from '@remirror/core';
+
+/**
+ * This is the default parent node. It is required in the Prosemirror Schema and
+ * a representation of the `doc` is required as the top level node in all
+ * editors.
+ *
+ * Extra attributes are disallowed for the doc extension.
+ *
+ * @required
+ * @core
+ */
+declare class DocExtension extends NodeExtension<DocOptions> {
+    get name(): "doc";
+    /**
+     * Create the node spec for the `doc` the content that you've provided.
+     */
+    createNodeSpec(_: ApplySchemaAttributes, override: NodeSpecOverride): NodeExtensionSpec;
+    /**
+     * Update the attributes for the doc node.
+     */
+    setDocAttributes(attrs: ProsemirrorAttributes): CommandFunction;
+    isDefaultDocNode({ state, options, }?: IsDefaultDocNodeHelperOptions): Helper<boolean>;
+}
+export { DocExtension }
+export { DocExtension as DocExtension_alias_1 }
+
+declare interface DocOptions {
+    /**
+     * Adjust the content allowed in this prosemirror document.
+     *
+     * This will alter the schema if changed after initialization and can cause
+     * errors. It should only be set **once** per editor.
+     *
+     * @remarks
+     *
+     * This field controls what sequences of child nodes are valid for this node
+     * type.
+     *
+     * Taken from https://prosemirror.net/docs/guide/#schema.content_expressions
+     *
+     * You can say, for example "paragraph" for “one paragraph”, or "paragraph+"
+     * to express “one or more paragraphs”. Similarly, "paragraph*" means “zero or
+     * more paragraphs” and "caption?" means “zero or one caption node”. You can
+     * also use regular-expression-like ranges, such as {2} (“exactly two”) {1, 5}
+     * (“one to five”) or {2,} (“two or more”) after node names.
+     *
+     * Such expressions can be combined to create a sequence, for example "heading
+     * paragraph+" means ‘first a heading, then one or more paragraphs’. You can
+     * also use the pipe | operator to indicate a choice between two expressions,
+     * as in "(paragraph | blockquote)+".
+     *
+     * Some groups of element types will appear multiple types in your schema—for
+     * example you might have a concept of “block” nodes, that may appear at the
+     * top level but also nested inside of blockquotes. You can create a node
+     * group by giving your node specs a group property, and then refer to that
+     * group by its name in your expressions.
+     *
+     * @core
+     */
+    content?: Static<string>;
+    /**
+     * The doc node doesn't support `extraAttribute`. If you need to add support
+     * for adding new attributes then this property can be used to apply attributes
+     * directly to the doc node.
+     *
+     * @remarks
+     *
+     * Passing an array of strings, will initialise each key with the value null
+     *
+     * ```ts
+     * new DocExtension({ docAttributes: ['key1', 'key2'] })
+     * ```
+     *
+     * Passing an object, will initialise each key with an initial value
+     *
+     * ```ts
+     * new DocExtension({
+     *   docAttributes: {
+     *     key1: 'value1',
+     *     key2: null
+     *   }
+     * })
+     * ```
+     */
+    docAttributes?: Static<string[]> | Static<Record<string, string | null>>;
+}
+export { DocOptions }
+export { DocOptions as DocOptions_alias_1 }
+
+declare interface IsDefaultDocNodeHelperOptions extends Partial<EditorStateProps> {
+    /**
+     * The options passed to the isDefaultDocNode util
+     */
+    options?: DefaultDocNodeOptions;
+}
+
+export { }
+
+declare global {
+  namespace Remirror {
+    interface AllExtensions {
+      doc: DocExtension;
+    }
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "name": "get-dom-document",
+  "version": "0.1.3",
+  "type": "commonjs",
+  "main": "./lib/get-dom-document.node.js",
+  "browser": "./lib/get-dom-document.browser.js",
+  "types": "./lib/get-dom-document.d.ts",
+  "exports": {
+    "types": "./lib/get-dom-document.d.ts",
+    "node": {
+      "import": "./lib/get-dom-document.node.mjs",
+      "require": "./lib/get-dom-document.node.js"
+    },
+    "browser": {
+      "import": "./lib/get-dom-document.browser.mjs",
+      "require": "./lib/get-dom-document.browser.js"
+    },
+    "default": "./lib/get-dom-document.node.js"
+  },
+  "description": "",
+  "author": "ocavue <ocavue@gmail.com>",
+  "license": "MIT",
+  "funding": "https://github.com/sponsors/ocavue",
+  "homepage": "https://github.com/ocavue/get-dom-document",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ocavue/get-dom-document.git"
+  },
+  "keywords": [],
+  "sideEffects": false,
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "release": "bumpp && npm publish"
+  },
+  "peerDependencies": {
+    "jsdom": "*"
+  },
+  "peerDependenciesMeta": {
+    "jsdom": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "bumpp": "^8.2.1"
+  }
+}

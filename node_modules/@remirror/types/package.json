@@ -1,0 +1,50 @@
+{
+  "name": "@remirror/types",
+  "version": "2.0.0",
+  "description": "Base types used throughout the remirror packages.",
+  "keywords": [
+    "remirror"
+  ],
+  "homepage": "https://github.com/remirror/remirror/tree/HEAD/packages/remirror__types",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/remirror/remirror.git",
+    "directory": "packages/remirror__types"
+  },
+  "license": "MIT",
+  "contributors": [
+    "Ifiok Jr. <ifiokotung@gmail.com>"
+  ],
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/remirror-types.d.ts",
+      "import": "./dist/remirror-types.js",
+      "require": "./dist/remirror-types.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/remirror-types.cjs",
+  "module": "./dist/remirror-types.js",
+  "types": "./dist/remirror-types.d.ts",
+  "files": [
+    "dist",
+    "dist-types"
+  ],
+  "dependencies": {
+    "type-fest": "^3.10.0"
+  },
+  "devDependencies": {
+    "@remirror/cli": "1.1.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "@remirror": {
+    "sizeLimit": "1 KB"
+  },
+  "scripts": {
+    "build": "remirror-cli build"
+  }
+}

@@ -1,0 +1,31 @@
+
+{% load static %}
+
+{% block content %}
+<div class="container" style="padding: 20px;">
+    <h1>Document Versions for "{{ document.title }}"</h1>
+    {% if versions %}
+        <ul class="version-list" style="list-style: none; padding: 0;">
+            {% for version in versions %}
+                <li style="background: #f8f9fa; padding: 15px; margin-bottom: 10px; border-radius: 5px;">
+                    <strong>Version {{ version.version_number }}</strong> - {{ version.modified_at|date:"Y-m-d H:i" }}
+                    <br>
+                    Edited by: {{ version.modified_by.username }}
+                    <br>
+<a href="{% url 'view_version_content' document.id version.id %}" class="button">View Content</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No versions available for this document.</p>
+    {% endif %}
+
+    <a href="{% url 'edit_document' document.id %}" class="button" style="text-decoration: none; color: #fff; background: #6366f1; padding: 10px 15px; border-radius: 5px;">Back to Edit Document</a>
+    
+    <!-- Placeholder for rendering the React component -->
+    <div id="version-history-root"></div>
+</div>
+{% endblock %}
+
+<!-- Include bundled JavaScript -->
+<script src="{% static 'editor/dist/bundle.js' %}"></script>

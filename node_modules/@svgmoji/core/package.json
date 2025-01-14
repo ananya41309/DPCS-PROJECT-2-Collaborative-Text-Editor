@@ -1,0 +1,53 @@
+{
+  "name": "@svgmoji/core",
+  "version": "3.2.0",
+  "description": "Utilities forked from emojibase for working with svgmoji",
+  "keywords": [
+    "emoji",
+    "svg",
+    "icons"
+  ],
+  "homepage": "https://github.com/svgmoji/svgmoji/tree/HEAD/packages/@svgmoji/core",
+  "repository": "https://github.com/svgmoji/svgmoji/tree/HEAD/packages/svgmoji__core",
+  "license": "MIT",
+  "contributors": [],
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": "./dist/svgmoji-core.esm.js",
+      "require": "./dist/svgmoji-core.cjs.js",
+      "browser": "./dist/svgmoji-core.browser.esm.js",
+      "types": "./dist/svgmoji-core.cjs.d.ts",
+      "default": "./dist/svgmoji-core.esm.js"
+    },
+    "./package.json": "./package.json",
+    "./types/*": "./dist/declarations/src/*.d.ts"
+  },
+  "main": "dist/svgmoji-core.cjs.js",
+  "module": "dist/svgmoji-core.esm.js",
+  "browser": {
+    "./dist/svgmoji-core.cjs.js": "./dist/svgmoji-core.browser.cjs.js",
+    "./dist/svgmoji-core.esm.js": "./dist/svgmoji-core.browser.esm.js"
+  },
+  "types": "dist/svgmoji-core.cjs.d.ts",
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@babel/runtime": "^7.12.5",
+    "emojibase": "^5.1.0",
+    "emojibase-regex": "^5.1.1",
+    "idb-keyval": "^5.0.2",
+    "match-sorter": "^6.2.0",
+    "type-fest": "^1.2.0"
+  },
+  "devDependencies": {
+    "emojibase-data": "^6.1.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "meta": {
+    "sizeLimit": "10 KB"
+  }
+}

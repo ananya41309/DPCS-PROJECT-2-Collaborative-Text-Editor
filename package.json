@@ -1,0 +1,34 @@
+{
+  "name": "collaborative_editor",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@babel/core": "^7.26.0",
+    "@babel/preset-env": "^7.26.0",
+    "@babel/preset-react": "^7.25.9",
+    "babel-loader": "^9.2.1",
+    "webpack": "^5.96.1",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.1.0"
+  },
+  "dependencies": {
+    "@remirror/core": "^3.0.1",
+    "@remirror/pm": "^3.0.0",
+    "@remirror/react": "^3.0.1",
+    "quill": "^2.0.3",
+    "quill-cursors": "^4.0.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-scripts": "^5.0.1",
+    "socket.io-client": "^4.8.1",
+    "y-webrtc": "^10.3.0",
+    "yjs": "^13.6.20"
+  }
+}

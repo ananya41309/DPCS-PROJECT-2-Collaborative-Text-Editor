@@ -1,0 +1,52 @@
+{
+  "name": "@svgmoji/twemoji",
+  "version": "3.2.0",
+  "description": "The svgmoji sprites for the [`twemoji`](https://github.com/twitter/twemoji) library provided by Twitter.",
+  "keywords": [
+    "emoji",
+    "svg",
+    "icons",
+    "twitter",
+    "twemoji"
+  ],
+  "homepage": "https://github.com/svgmoji/svgmoji/tree/HEAD/packages/@svgmoji/twemoji",
+  "repository": "https://github.com/svgmoji/svgmoji/tree/HEAD/packages/svgmoji__twemoji",
+  "license": "MIT",
+  "contributors": [],
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": "./dist/svgmoji-twemoji.esm.js",
+      "require": "./dist/svgmoji-twemoji.cjs.js",
+      "browser": "./dist/svgmoji-twemoji.browser.esm.js",
+      "types": "./dist/svgmoji-twemoji.cjs.d.ts",
+      "default": "./dist/svgmoji-twemoji.esm.js"
+    },
+    "./extra.json": "./extra.json",
+    "./missing.json": "./missing.json",
+    "./package.json": "./package.json",
+    "./types/*": "./dist/declarations/src/*.d.ts"
+  },
+  "main": "dist/svgmoji-twemoji.cjs.js",
+  "module": "dist/svgmoji-twemoji.esm.js",
+  "browser": {
+    "./dist/svgmoji-twemoji.cjs.js": "./dist/svgmoji-twemoji.browser.cjs.js",
+    "./dist/svgmoji-twemoji.esm.js": "./dist/svgmoji-twemoji.browser.esm.js"
+  },
+  "types": "dist/svgmoji-twemoji.cjs.d.ts",
+  "files": [
+    "dist",
+    "extra.json",
+    "missing.json"
+  ],
+  "dependencies": {
+    "@babel/runtime": "^7.12.5",
+    "@svgmoji/core": "^3.2.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "meta": {
+    "sizeLimit": "10 KB"
+  }
+}

@@ -1,0 +1,9 @@
+export declare const MENTION_ATOM: "remirror-mention-atom";
+export declare const SUGGEST_ATOM: "remirror-suggest-atom";
+export declare const MENTION_ATOM_POPUP_ITEM: import("@linaria/core").LinariaClassName;
+export declare const MENTION_ATOM_POPUP_HOVERED: import("@linaria/core").LinariaClassName;
+export declare const MENTION_ATOM_POPUP_HIGHLIGHT: import("@linaria/core").LinariaClassName;
+export declare const MENTION_ATOM_POPUP_WRAPPER: import("@linaria/core").LinariaClassName;
+export declare const MENTION_ATOM_POPUP_NAME: import("@linaria/core").LinariaClassName;
+export declare const MENTION_ATOM_ZERO_ITEMS: import("@linaria/core").LinariaClassName;
+export declare const MENTION_ATOM_POPUP_CHAR: import("@linaria/core").LinariaClassName;

@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editing {{ document.title }}</title>
+    <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --success-color: #10b981;
+            --background: #f8fafc;
+            --card-background: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border-color: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .layout-container {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .main-content {
+            background: var(--card-background);
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            padding: 2rem;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        h1 {
+            color: var(--text-primary);
+            font-size: 1.875rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.75rem;
+        }
+
+        h2 {
+            color: var(--text-primary);
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        #connection-status {
+            background-color: #f0fdf4;
+            border-left: 4px solid var(--success-color);
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        #connection-status.disconnected {
+            background-color: #fef2f2;
+            border-left-color: #ef4444;
+        }
+
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--success-color);
+        }
+
+        .disconnected .status-indicator {
+            background-color: #ef4444;
+        }
+
+        #editor-container {
+            border-radius: 0.5rem;
+            border: 1px solid var(--border-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .ql-toolbar.ql-snow {
+            border-top-left-radius: 0.5rem;
+            border-top-right-radius: 0.5rem;
+            border-color: var(--border-color);
+        }
+
+        .ql-container.ql-snow {
+            border-bottom-left-radius: 0.5rem;
+            border-bottom-right-radius: 0.5rem;
+            border-color: var(--border-color);
+            min-height: 300px;
+        }
+
+        .card {
+            background: var(--card-background);
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            padding: 1.5rem;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .button-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .button-primary:hover {
+            background-color: #4f46e5;
+            transform: translateY(-1px);
+        }
+
+        .button-secondary {
+            background-color: #e0e7ff;
+            color: var(--primary-color);
+        }
+
+        .button-secondary:hover {
+            background-color: #c7d2fe;
+        }
+
+        .permissions-list {
+            list-style: none;
+            margin: 1rem 0;
+        }
+
+        .permissions-list li {
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            background-color: #f8fafc;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .comments-section {
+            margin-top: 1.5rem;
+        }
+
+        .comments-list {
+            list-style: none;
+            margin: 1rem 0;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .comment-item {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            background-color: #f8fafc;
+            margin-bottom: 0.5rem;
+        }
+
+        .comment-form {
+            margin-top: 1rem;
+        }
+
+        .comment-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .button-add-comment {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .button-add-comment:hover {
+            background-color: #4f46e5;
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 1024px) {
+            .layout-container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                order: -1;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .layout-container {
+                padding: 1rem;
+            }
+
+            .main-content, .card {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="layout-container">
+        <div class="main-content">
+            <h1>
+                <i class="fas fa-edit"></i>
+                Editing {{ document.title }}
+            </h1>
+            
+            <div id="connection-status">
+                <div class="status-indicator"></div>
+                <span id="status-text">Connected</span>
+            </div>
+
+            <div id="editor-container"></div>
+
+            <div class="button-group">
+                <a href="{% url 'share_document' document.id %}" class="button button-primary">
+                    <i class="fas fa-share-alt"></i>
+                    Share Document
+                </a>
+                <a href="{% url 'dashboard' %}" class="button button-secondary">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Dashboard
+                </a>
+                <a href="{% url 'download_document' document.id %}" class="button button-primary">
+                    <i class="fas fa-download"></i>
+                    Download Document
+                </a>
+                <a href="{% url 'view_versions' document.id %}" class="button button-secondary">
+                    <i class="fas fa-history"></i>
+                    View Versions
+                </a>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <div class="card">
+                <h2>
+                    <i class="fas fa-users"></i>
+                    Users with Access
+                </h2>
+                <ul class="permissions-list">
+                    {% for permission in permissions_list %}
+                        <li>
+                            <i class="fas fa-user"></i>
+                            <div>
+                                <strong>{{ permission.user.username }}</strong>
+                                <div class="text-secondary">{{ permission.get_access_level_display }}</div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>
+                    <i class="fas fa-comments"></i>
+                    Comments
+                </h2>
+                <ul id="comments-list" class="comments-list">
+                    {% for comment in document.comments.all %}
+                        <li class="comment-item">
+                            <strong>{{ comment.user.username }}</strong>
+                            <p>{{ comment.content }}</p>
+                            <small class="text-secondary">{{ comment.created_at|date:"Y-m-d H:i:s" }}</small>
+                        </li>
+                    {% empty %}
+                        <li id="no-comments" class="text-secondary">No comments yet.</li>
+                    {% endfor %}
+                </ul>
+                <div class="comment-form">
+                    <textarea id="comment-input" class="comment-input" placeholder="Write a comment..."></textarea>
+                    <p id="comment-error" style="color: #ef4444; display: none; margin-bottom: 0.5rem;"></p>
+                    <button id="add-comment-btn" class="button-add-comment">
+                        <i class="fas fa-paper-plane"></i>
+                        Add Comment
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const docId = "{{ document.id }}"; // Get the document ID dynamically
+            const initialContentInput = document.getElementById("initial-content");
+            let socket = null;
+            let retryCount = 0;
+            const maxRetries = 5;
+            let isRemoteUpdate = false;
+
+            // Initialize Quill
+            const quill = new Quill("#editor-container", {
+                theme: "snow",
+                modules: {
+                    toolbar: [
+                        ["bold", "italic", "underline"],
+                        [{ list: "ordered" }, { list: "bullet" }],
+                        [{ size: ["small", false, "large", "huge"] }],
+                        [{ align: [] }],
+                    ],
+                },
+            });
+
+            if (initialContentInput && initialContentInput.value) {
+                try {
+                    const initialContent = JSON.parse(initialContentInput.value);
+                    quill.setContents(initialContent);
+                    version = JSON.stringify(initialContent).length;
+                } catch (e) {
+                    console.error("Error parsing initial content:", e);
+                    // If JSON parsing fails, try setting as plain text
+                    quill.setText(initialContentInput.value);
+                }
+            }
+
+            function connectWebSocket() {
+                const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+                socket = new WebSocket(`${protocol}//${window.location.host}/ws/document/${docId}/`);
+
+                socket.onopen = () => {
+                    console.log("WebSocket connection established");
+                    document.getElementById("connection-status").classList.remove("disconnected");
+                    document.getElementById("status-text").textContent = "Connected";
+                    retryCount = 0;
+                    
+                    // Request latest content upon connection
+                    socket.send(JSON.stringify({ type: "request_content", version: version }));
+                };
+
+                socket.onmessage = (event) => {
+                    const data = JSON.parse(event.data);
+
+                    if (data.type === "content") {
+                        try {
+                            const currentRange = quill.getSelection();
+                            const newContent = JSON.parse(data.content);
+                            
+                            // Calculate cursor position relative to total length
+                            let relativePosition = 0;
+                            if (currentRange) {
+                                const currentLength = quill.getLength();
+                                relativePosition = currentRange.index / currentLength;
+                            }
+                            
+                            isRemoteUpdate = true;
+                            quill.setContents(newContent);
+                            isRemoteUpdate = false;
+
+                            // Restore cursor position based on relative position
+                            if (currentRange) {
+                                const newLength = quill.getLength();
+                                const newIndex = Math.min(Math.floor(relativePosition * newLength), newLength - 1);
+                                quill.setSelection(newIndex, currentRange.length);
+                            }
+                        } catch (e) {
+                            console.error("Error updating content:", e);
+                        }
+                    }
+                };
+
+                socket.onclose = (event) => {
+                    document.getElementById("connection-status").classList.add("disconnected");
+                    document.getElementById("status-text").textContent = "Disconnected - Reconnecting...";
+                    
+                    if (retryCount < maxRetries) {
+                        retryCount++;
+                        setTimeout(connectWebSocket, 5000);
+                    } else {
+                        document.getElementById("status-text").textContent = "Disconnected - Please refresh the page";
+                    }
+                };
+
+                socket.onerror = (error) => {
+                    console.error("WebSocket error for document ID:", docId, error);
+                };
+            }
+
+            let saveTimeout = null;
+
+            quill.on("text-change", (delta, oldContents, source) => {
+                if (!isRemoteUpdate && source === "user") {
+                    if (saveTimeout) clearTimeout(saveTimeout);
+                    
+                    saveTimeout = setTimeout(() => {
+                        const content = quill.getContents();
+                        // Save locally
+                        localStorage.setItem(`document_${docId}_content`, JSON.stringify(content));
+                        
+                        // Send to server if connected
+                        if (socket && socket.readyState === WebSocket.OPEN) {
+                            socket.send(JSON.stringify({
+                                type: "save_content",
+                                content: JSON.stringify(content)
+                            }));
+                        }
+                    }, 10);
+                }
+            });
+
+            // Attach form submission to update hidden field
+            const form = document.getElementById("edit-document-form");
+            if (form) {
+                form.addEventListener("submit", function(e) {
+                    const quillContent = quill.getContents();
+                    document.getElementById("document-content").value = JSON.stringify(quillContent);
+                });
+            }
+
+            connectWebSocket();
+
+            /*
+            // Function to send content updates to WebSocket
+            function sendContentToWebSocket(content) {
+                if (socket && socket.readyState === WebSocket.OPEN) {
+                    socket.send(JSON.stringify({
+                        type: 'content',
+                        content: JSON.stringify(content),
+                    }));
+                } else {
+                    console.warn("WebSocket not open. Content not sent.");
+                }
+            }
+            */
+            /*
+            // Load initial content from server
+            try {
+                const initialContent = initialContentInput.value;
+                if (initialContent) {
+                    quill.setContents(JSON.parse(initialContent));
+                }
+            } catch (e) {
+                console.error("Error loading initial content:", e);
+            }
+            */
+            
+
+            // Handle content changes with debouncing
+            /*
+            quill.on("text-change", (delta, oldContents, source) => {
+                if (!isRemoteUpdate && source === "user") {
+                    if (saveTimeout) clearTimeout(saveTimeout);
+                    
+                    saveTimeout = setTimeout(() => {
+                        const content = quill.getContents();
+                        // Save locally
+                        localStorage.setItem(`document_${docId}_content`, JSON.stringify(content));
+                        
+                        // Send to server if connected
+                        if (socket && socket.readyState === WebSocket.OPEN) {
+                            socket.send(JSON.stringify({
+                                type: "save_content",
+                                content: JSON.stringify(content)
+                            }));
+                        }
+                    }, 10);
+                }
+            });
+            */
+
+            // Handle comments
+            const commentsList = document.getElementById("comments-list");
+            const commentInput = document.getElementById("comment-input");
+            const addCommentBtn = document.getElementById("add-comment-btn");
+            const commentError = document.getElementById("comment-error");
+            
+            /*
+            // Attach form submission to update hidden field
+            const form = document.getElementById("edit-document-form");
+            form.addEventListener("submit", function(e) {
+                const quillContent = quill.getContents();
+                document.getElementById("document-content").value = JSON.stringify(quillContent);
+            });
+            */
+            function addCommentToList(comment) {
+                const li = document.createElement("li");
+                li.innerHTML = `<strong>${comment.user}</strong>: ${comment.content}`;
+                commentsList.appendChild(li);
+            }
+
+            addCommentBtn.addEventListener("click", () => {
+                const comment = commentInput.value.trim();
+                if (comment) {
+                    fetch(`/document/${docId}/add_comment/`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRFToken": "{{ csrf_token }}",
+                        },
+                        body: JSON.stringify({ content: comment }),
+                    })
+                        .then((response) => response.json())
+                        .then((data) => {
+                            if (data.success) {
+                                addCommentToList(data.comment);
+                                socket.send(JSON.stringify({ type: "comment", comment: data.comment }));
+                                commentInput.value = ""; // Clear the input
+                            } else {
+                                commentError.textContent = data.error || "Failed to add comment";
+                            }
+                        })
+                        .catch((error) => {
+                            console.error("Error adding comment:", error);
+                        });
+                } else {
+                    commentError.textContent = "Please enter a comment.";
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>
