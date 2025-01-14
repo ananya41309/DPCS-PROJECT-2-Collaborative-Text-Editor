@@ -121,8 +121,8 @@ Ensure you have the following installed:
 
 - **Functionality Testing**: Multi-user collaboration, text formatting, authentication.
 - **Unit Testing**: Test individual components and backend APIs.
-- **Integration Testing**: Verify interactions between frontend and backend.
-- **Performance Testing**: Simulate load with 50+ users for real-time synchronization.
+- **Integration Testing**: Verifying interactions between frontend and backend.
+  
 
 ---
 
